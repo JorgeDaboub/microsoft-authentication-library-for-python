@@ -43,7 +43,8 @@ global_app = msal.ConfidentialClientApplication(
     os.getenv('CLIENT_ID'),
     authority=os.getenv('AUTHORITY'),  # For Entra ID or External ID
     oidc_authority=os.getenv('OIDC_AUTHORITY'),  # For External ID with custom domain
-    client_credential=os.getenv('CLIENT_SECRET'),
+    client_credential=os.getenv('CLIENT_SECRET') or json.loads(
+        os.getenv("CLIENT_CREDENTIAL_JSON")),
     token_cache=global_token_cache,  # Let this app (re)use an existing token cache.
         # If absent, ClientApplication will create its own empty token cache
     )
