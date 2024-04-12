@@ -1376,11 +1376,11 @@ class ClientApplication(object):
                 query["key_id"] = key_id
             now = time.time()
             refresh_reason = msal.telemetry.AT_ABSENT
-            for entry in self.token_cache._find(  # It returns a generator
+            for entry in self.token_cache.search(  # It returns a generator
                 self.token_cache.CredentialType.ACCESS_TOKEN,
                 target=scopes,
                 query=query,
-            ):  # Note that _find() holds a lock during this for loop;
+            ):  # Note that search() holds a lock during this for loop;
                 # that is fine because this loop is fast
                 expires_in = int(entry["expires_on"]) - now
                 if expires_in < 5*60:  # Then consider it expired
